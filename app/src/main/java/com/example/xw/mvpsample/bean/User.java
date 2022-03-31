@@ -1,13 +1,18 @@
 package com.example.xw.mvpsample.bean;
 
+import lombok.Data;
+
 /**
  * Created by xw on 2016/10/26.
  */
+@Data
 public class User {
     private String login;
     private String name;
     private int followers;
     private int following;
+    String html_url;
+    String followers_url;
 
     public int getFollowers() {
         return followers;

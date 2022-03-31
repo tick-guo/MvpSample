@@ -2,29 +2,33 @@ package com.example.xw.mvpsample.ui;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import butterknife.BindView;
+import butterknife.BindViews;
 import com.example.xw.mvpsample.R;
 import com.example.xw.mvpsample.bean.User;
 import com.example.xw.mvpsample.mvp.presenter.MainPresenter;
 import com.example.xw.mvpsample.mvp.view.BaseView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+//import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements BaseView {
 
-    @InjectView(R.id.tv)
+    @BindView(R.id.tv)
     TextView mTextView;
-    @InjectView(R.id.search_btn)
+    @BindView(R.id.search_btn)
     Button mButton;
-    @InjectView(R.id.ed_text)
+    @BindView(R.id.ed_text)
     EditText mEditText;
 
     private  ProgressDialog dialog;
@@ -33,10 +37,13 @@ public class MainActivity extends AppCompatActivity implements BaseView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initView();
         mMainPresenter=new MainPresenter();
         mMainPresenter.attachView(this);
+        //
+        //mTextView.setText("结果:");
+
     }
 
     /**
@@ -50,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements BaseView {
 
     @OnClick(R.id.search_btn)
     void search(View view){
+        Log.v("","点击按钮");
         mMainPresenter.searchUser(mEditText.getText().toString());
     }
 
@@ -67,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements BaseView {
     public void showText(User userbean) {
         String temp=getResources().getString(R.string.user_format);
         String str=String.format(temp,userbean.getLogin(),userbean.getName(),userbean.getFollowers(),userbean.getFollowing());
+        str += "\n" + userbean.getHtml_url();
+        str += "\n" + userbean.getFollowers_url();
         mTextView.setText(str);
     }
 
